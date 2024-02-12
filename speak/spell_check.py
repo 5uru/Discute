@@ -44,7 +44,7 @@ def grammar_coherence_correction(text):
         len(set(rewritten.split()) - set(text.split()))
         + len(set(coherence_corrected.split()) - set(text.split()))
         + len(set(grammar_corrected.split()) - set(text.split()))
-    )
+    ) / 3
     # Percentage of words changed
     score = score / len(text.split()) * 100
     return {
@@ -52,4 +52,5 @@ def grammar_coherence_correction(text):
         "grammar_corrected": grammar_corrected,
         "coherence_corrected": coherence_corrected,
         "rewritten": rewritten,
+        "original": text,
     }

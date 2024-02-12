@@ -11,7 +11,7 @@ def chat(message: List[Dict[str, str]]) -> Dict[str, str]:
     dictionary with "role" and "content" keys.
     
     Returns:
-        Dict[str, str]: The response message from the chatbot.
+        str: The response message from the chatbot.
 
     """
     response = ollama.chat(model="qwen:7b-chat", messages=message,)

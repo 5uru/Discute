@@ -5,7 +5,7 @@ model_size = "large-v3"
 model = WhisperModel(model_size, device="cpu", compute_type="int8")
 
 
-def transcribe(file_path, language="en"):
+def transcribe(language="en"):
     """
     Transcribe the audio file at the given path.
     Args:
@@ -15,9 +15,6 @@ def transcribe(file_path, language="en"):
     Returns:
         str: The transcribed text.
     """
-    segments, _ = model.transcribe(file_path, vad_filter=True, language=language)
+    segments, _ = model.transcribe("tmp_file.wave", vad_filter=True, language=language)
     segments = list(segments)  # The transcription will actually run here.
     return segments[0].text
-
-
-print(transcribe("../output/hello_world.wav"))
