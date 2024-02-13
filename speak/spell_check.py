@@ -1,4 +1,27 @@
+import Levenshtein as lev
 from transformers import AutoTokenizer, T5ForConditionalGeneration
+
+
+def calculate_overall_similarity_score(
+    original, grammar_corrected, coherence_corrected, rewritten
+):
+    grammar_similarity = 1 - lev.distance(original, grammar_corrected) / max(
+        len(original), len(grammar_corrected)
+    )
+    coherence_similarity = 1 - lev.distance(original, coherence_corrected) / max(
+        len(original), len(coherence_corrected)
+    )
+    rewritten_similarity = 1 - lev.distance(original, rewritten) / max(
+        len(original), len(rewritten)
+    )
+
+    # Calcul de la moyenne des scores de similarité
+    average_similarity = (
+        grammar_similarity + coherence_similarity + rewritten_similarity
+    ) / 3
+
+    return int(average_similarity * 100)
+
 
 tokenizer = AutoTokenizer.from_pretrained("grammarly/coedit-large")
 model = T5ForConditionalGeneration.from_pretrained("grammarly/coedit-large")
@@ -40,13 +63,9 @@ def grammar_coherence_correction(text):
     coherence_corrected = process_text(grammar_corrected, "coherence_correction")
     rewritten = process_text(coherence_corrected, "rewrite_text")
     # calculate the difference between texts
-    score = (
-        len(set(rewritten.split()) - set(text.split()))
-        + len(set(coherence_corrected.split()) - set(text.split()))
-        + len(set(grammar_corrected.split()) - set(text.split()))
-    ) / 3
-    # Percentage of words changed
-    score = score / len(text.split()) * 100
+    score = calculate_overall_similarity_score(
+        text, grammar_corrected, coherence_corrected, rewritten
+    )
     return {
         "score": score,
         "grammar_corrected": grammar_corrected,
