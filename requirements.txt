@@ -5,4 +5,4 @@ python_Levenshtein==0.23.0
 python_Levenshtein==0.25.0
 streamlit==1.30.0
 streamlit_mic_recorder==0.0.4
-transformers==4.37.0.dev0
+transformers==4.38.0
