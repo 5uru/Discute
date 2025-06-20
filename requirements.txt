@@ -1,8 +1,6 @@
-faster_whisper==0.10.0
-gtts==2.5.1
-ollama==0.1.6
-python_Levenshtein==0.23.0
-python_Levenshtein==0.25.0
-streamlit==1.30.0
-streamlit_mic_recorder==0.0.4
-transformers==4.37.0.dev0
+kokoro>=0.9.2
+soundfile
+torchaudio
+langchain
+streamlit
+openai-whisper
